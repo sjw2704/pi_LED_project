@@ -1,0 +1,27 @@
+#!/bin/bash
+
+PINS=(19 20 21) # 사용하는 핀 번호들
+
+# 핀 모드 설정
+for PIN in "${PINS[@]}"; do
+  pinctrl set $PIN op # op: output mode
+done
+
+while true # 무한 루프
+do
+    for i in {0..7}
+    do
+        # 0~7값을 비트와 매칭시키기
+        for j in {0..2}
+        do
+            ComparedBit=1 # 각 PIN을 켤지 끌지 결정하는 비트
+            Val=$((((ComparedBit << j)) & i )) #비교 후에 Val에 저장
+            if [ "$Val" -gt 0 ]; then # Val이 0보다 크면
+                pinctrl set ${PINS[$j]} dh # dh: high
+            elif [ "$Val" -eq 0 ]; then # Val이 0이면
+                pinctrl set ${PINS[$j]} dl # dl: low
+            fi
+        done
+        sleep 1
+    done
+done
