@@ -3,13 +3,15 @@
 PINS=(21 20 19 18) # 사용하는 핀 번호들
 
 # 핀 모드 설정
+pinctrl set 25 pu
+pinctrl set 25 pu
 for PIN in "${PINS[@]}"; do
   pinctrl set $PIN op # op: output mode
 done
 
 # 순차적으로 점등
 while true; do
-  for PIN in "$.; do
+  for PIN in "${PINS[@]}"; do
     pinctrl set $PIN dh # dh: high
     sleep 1
     pinctrl set $PIN dl # dl: low
