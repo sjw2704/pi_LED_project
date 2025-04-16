@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+from gpiozero import Button, LED
+from signal import pause
+from time import sleep
+
+# 핀 설정 (BCM 번호 기준)
+OUTPUT_PIN = 21 # 출력 핀
+INPUT_PIN = 25 # 버튼 입력 핀
+
+led = LED(OUTPUT_PIN) # LED 핀 설정
+button = Button(INPUT_PIN, pull_up=True) # 내부 풀업 설정
+# Falling edge (버튼 누를 때) LED 0.5초 ON 
+def flash_led():
+    led.on()
+    sleep(0.5)
+    led.off()
+
+# Falling edge 감지 시 flash_led 실행
+button.when_pressed = flash_led
+
+pause()  # 프로그램이 종료되지 않도록 대기
