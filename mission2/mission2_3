@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+from gpiozero import Button, LED
+from signal import pause
+from time import sleep
+
+# 핀 설정 (BCM 번호 기준)
+LED_PIN = [21, 20, 19, 18]
+INPUT_PIN = 25 # 버튼 입력 핀
+
+leds = [LED(pin) for pin in LED_PIN]
+button = Button(INPUT_PIN, pull_up=True, bounce_time=0.1)
+# Falling edge (버튼 누를 때) LED 0.5초 ON 
+def domino_led():
+    for led in leds:
+        led.on()
+        sleep(1)
+        led.off()
+
+# Falling edge 감지 시 flash_led 실행
+button.when_pressed = domino_led
+
+pause()  # 프로그램이 종료되지 않도록 대기
