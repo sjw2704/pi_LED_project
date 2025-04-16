@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+from gpiozero import Button, LED
+from signal import pause
+
+# 핀 설정 (BCM 번호 기준)
+LED_PINS = [21, 20, 19, 18]  # LSB부터 MSB 방향이라고 가정
+INPUT_PIN = 25
+
+# LED 객체 리스트로 만들기
+leds = [LED(pin) for pin in LED_PINS]
+button = Button(INPUT_PIN, pull_up=True, bounce_time=0.1)
+
+# 카운터 초기화
+count = 0
+
+# 버튼 눌릴 때 실행할 함수
+def update_leds():
+    global count
+    count = (count + 1) % 16  # 0~15까지만 유지 (4-bit)
+
+    binary = f"{count:04b}"  # count를 4비트 이진수 문자열로 변환
+    print(f"count = {count} -> binary = {binary}") # 디버깅용 출력
+
+    for i in range(4):
+        if binary[3 - i] == '1':  # MSB부터 처리
+            leds[i].on()
+        else:
+            leds[i].off()
+
+# Falling edge에 반응
+button.when_pressed = update_leds
+
+pause()
