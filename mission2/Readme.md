@@ -15,7 +15,7 @@
 
 ## **3. 🕹️회로 구성**
 
-<img src= "https://github.com/sjw2704/pi_LED_project/blob/main/mission2/images/IMG_0361.jpg" width="300" />
+<img src= "https://github.com/sjw2704/pi_LED_project/blob/main/mission2/images/IMG_0361.jpg" width="600" />
 
 | **PIN** | 부품 |
 | --- | --- |
