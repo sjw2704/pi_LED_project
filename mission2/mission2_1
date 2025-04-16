@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+from gpiozero import LED, Button
+import time
+
+# 핀 번호 설정 (BCM 모드 기준)
+OUTPUT_PIN = 21  # 출력 핀
+INPUT_PIN = 25   # 버튼 입력 핀
+
+# gpiozero는 내부적으로 핀 모드를 설정해줌
+led = LED(OUTPUT_PIN)
+button = Button(INPUT_PIN, pull_up=True)  # 내부 풀업 설정 (bash의 pinctrl set 25 pu와 같음)
+
+try:
+    while True:
+        if button.is_pressed:  # 버튼이 눌리면 lo 상태
+            print("lo")
+            led.on()  # dh: drive high
+        else:
+            led.off()  # dl: drive low
+        time.sleep(0.3)
+
+except KeyboardInterrupt:
+    print("종료합니다.")
